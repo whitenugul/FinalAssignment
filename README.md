@@ -19,7 +19,6 @@ v1.0.2 (2023.04.10)
 [GitHub - goldbergyoni/nodebestpractices: The Node.js best practices list (November 2022)](https://github.com/goldbergyoni/nodebestpractices#-12-layer-your-components-keep-the-web-layer-within-its-boundaries)
 
 [How to structure an Express.js REST API - best practices](https://blog.treblle.com/egergr/)
-ㅂ
 폴더 구조
 
 ```jsx
