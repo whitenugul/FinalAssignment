@@ -1,0 +1,35 @@
+{
+  "app": {
+    "host": "http://127.0.0.1",
+    "port": 4000,
+    "https" : {
+      "key": "/path/to/key",
+      "cert": "/path/to/crt"
+    },
+    "swagger":{
+      "host": "192.168.0.21"
+    },
+    "logger":{
+      "path":"",
+      "error":{
+        "maxFiles": 90,
+        "maxSize": "100m"
+      },
+      "info":{
+        "maxFiles": 30,
+        "maxSize": "100m"
+      },
+      "debug":{
+        "maxFiles": 1,
+        "maxSize": "500m"
+      }
+    }
+  },
+  "elasticsearch": {
+    "nodes": [
+      "http://192.168.0.4:9203",
+      "http://192.168.0.5:9203",
+      "http://192.168.0.11:9203"
+    ]
+  }
+}
