@@ -9,10 +9,6 @@ const router = express.Router();
 // keyword에 대한 3개의 field에서 통합 검색
 router.get('/total', validate(schema.total), controller.totalSearch)
 
-// 날짜를 지표로 찾는다
-// 원하는 날짜 field를 고른 뒤 범위에 해당하는 것들만 출력하게 한다.
-router.post('/category_date', validate(schema.category_date), controller.rangeDate)
-
 // 입력한 날짜가 start, end date 사이에 있으면 그 자료를 출력
 // 논문자료만 해당
 router.post('/thesis/period', validate(schema.period), controller.periodDate)

@@ -85,41 +85,6 @@ export const period = async params => {
   return { searchResult, index };
 }
 
-export const range = async params => {
-  const simpleConfig = indexConfig.simple()
-  const index = params.category + '-0001'
-  const dateField = params.datefield
-  const {body} = simpleConfig
-  const start_date = params.start_date
-  const end_date = params.end_date
-
-  body.query = {
-    range: {
-      [dateField]: { // dateField 변수를 대괄호로 감싸 동적 필드 이름으로 설정
-        gt: start_date,
-        lt: end_date,
-      }
-    }
-  };
-
-  body.size = params.size;
-  body.from = params.from;
-
-  // JSON  형태로 만들어서 search 함수에 넣어준다.
-  logger.debug(
-    JSON.stringify({
-      index,
-      body,
-    }),
-  );
-
-  const searchResult = await search({
-    index,
-    body,
-  });
-  return { searchResult, index };
-}
-
 export const thesisTotal = async params => {
   const thesisConfig = indexConfig.thesis()
   const keyword = params.keyword

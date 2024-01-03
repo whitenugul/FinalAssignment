@@ -71,27 +71,6 @@ export const period = async params => {
   return response;
 }
 
-export const range = async params => {
-  const rangeDTO = params
-  const {searchResult, index} = await searchModel.range(rangeDTO)
-
-  const body = searchResult.body.hits.hits.map(item => ({
-    ...item._source,
-    highlight: item.highlight,
-  }))
-
-  const response = {
-    meta: {
-      index,
-      took: searchResult.body.took,
-      total: searchResult.body.hits.total.value,
-    },
-    body,
-  }
-  logger.info(JSON.stringify(response.meta));
-  return response;
-}
-
 export const thesisTotal = async params => {
   const thesisTotalDTO = params
   const {searchResult, index} = await searchModel.thesisTotal(thesisTotalDTO)

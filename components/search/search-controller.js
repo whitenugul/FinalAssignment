@@ -48,26 +48,6 @@ export const periodDate = asyncWrapper(async(req, res) => {
 res.send(response);
 })
 
-export const rangeDate = asyncWrapper(async(req, res) => {
-  const params = req.validated.body;
-  const response = await searchService.range(params)
-
-  axios
-  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.keyword,
-    ...response.meta,
-  })
-  .then(() => {
-    // logger.debug('querylog success');
-  })
-  .catch(err => {
-    logger.error(err);
-    logger.error('querylog failed');
-  });
-
-res.send(response);
-})
-
 export const thesisTotalSearch = asyncWrapper(async(req, res) => {
   const params = req.validated.query;
   const response = await searchService.thesisTotal(params)
@@ -171,10 +151,11 @@ res.send(response);
 export const companySearch = asyncWrapper(async(req, res) => {
   const params = req.validated.query;
   const response = await searchService.company(params)
+  const date = params.start_date + '-' + params.end_date
 
   axios
   .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.keyword,
+    query: date,
     ...response.meta,
   })
   .then(() => {
