@@ -1,3 +1,5 @@
+/* eslint-disable import/newline-after-import */
+/* eslint-disable import/order */
 import 'dotenv/config';
 import express from 'express';
 import cookieParser from 'cookie-parser';

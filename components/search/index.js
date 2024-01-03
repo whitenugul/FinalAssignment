@@ -15,7 +15,7 @@ router.post('/category_date', validate(schema.category_date), controller.rangeDa
 
 // 입력한 날짜가 start, end date 사이에 있으면 그 자료를 출력
 // 논문자료만 해당
-router.get('/thesis/period', validate(schema.period), controller.periodDate)
+router.post('/thesis/period', validate(schema.period), controller.periodDate)
 
 // thesis에서 찾고 싶은 field를 정한다음 찾을 수 있다.
 router.get('/thesis', validate(schema.thesis), controller.thesisSearch)

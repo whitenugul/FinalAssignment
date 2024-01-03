@@ -1,10 +1,10 @@
+/* eslint-disable no-console */
 /* eslint-disable no-const-assign */
 /* eslint-disable camelcase */
 /* eslint-disable prefer-destructuring */
 import { search, msearch } from '../../lib/elasticsearch/client.js';
 import * as indexConfig from './config/index-config.js';
 import { Logger } from '../../lib/logger/logger.js';
-import * as categoryConfig from './config/category.js'
 
 const logger = Logger(import.meta.url);
 
@@ -44,74 +44,27 @@ export const multi = async params => {
   return { searchResult, msearchIndices };
 };
 
-export const categorySearch = async params => {
-  const simpleConfig = indexConfig.simple();
-  const index = params.category + '-0001';
-  const { body } = simpleConfig;
-
-  const categoryConfigs = {
-    stock: categoryConfig.stock(),
-    tb_ked: categoryConfig.tb_ked(),
-    thesis: categoryConfig.thesis(),
-  };
-
-  const catConfig = categoryConfigs[params.category]
-
-  body.query = {
-    multi_match: {
-      fields: catConfig.field.search,
-      query: params.keyword,
-    },
-  };
-
-  const { field } = catConfig;
-
-  field.highlight.forEach(item => {
-    body.highlight.fields[item] = {};
-  });
-
-  body._source = field.result;
-  body.size = params.size;
-  body.from = params.from;
-
-  logger.debug(
-    JSON.stringify({
-      index,
-      body,
-    }),
-  );
-
-  const searchResult = await search({
-    index,
-    body,
-  });
-  return { searchResult, index };
-};
-
-
 export const period = async params => {
-  const simpleConfig = indexConfig.simple()
-  const date = params.date
-  const {body} = simpleConfig
-  const index = "thesis-0001"
+  const simpleConfig = indexConfig.thesis()
+  const {index, body} = simpleConfig
 
   body.query.bool = {
     must: [
-      {
+      { 
         range: {
-          period_start_dt: {
-            lte: date
-          }
+        period_start_dt: {
+          lte: params.date
         }
+      }
       },
       {
         range: {
           period_end_dt: {
-            gte: date
+            gte: params.date
           }
         }
       }
-  ]
+    ]
   }
 
   body.size = params.size;
@@ -207,12 +160,10 @@ export const thesisTotal = async params => {
 export const thesis = async params => {
   const thesisConfig = indexConfig.thesis()
   const keyword = params.keyword
-  const category = params.category
+  let category = params.category
   const {index, field, body} = thesisConfig
 
-  if (category === "author_kskn") {
-    category = "author_kskn.ngram"
-  }
+  category = (category === "author_kskn") ? "author_kskn.ngram" : category;
 
   body.query = {
     match: {
@@ -287,9 +238,8 @@ export const stock = async params => {
 
   
   const {index, field, body} = stockConfig
-  if (category === "reporter_kskn") {
-    category = "reporter_kskn.ngram"
-  }
+
+  category = (category === "reporter_kskn") ? "reporter_kskn.ngram" : category
 
   body.query = {
     match: {
@@ -361,15 +311,14 @@ export const companyTotal = async params => {
 export const company = async params => {
   const companyConfig = indexConfig.company()
   const keyword = params.keyword
-  const category = params.category
+  let category = params.category
 
   const {index, field, body} = companyConfig
 
-  if (category === "company_kskn") {
-    category = "company_kskn.ngram"
-  } else if(category === "road_ADD_kskn") {
-    category = "road_ADD_kskn.ngram"
-  }
+  category = (category === "company_kskn") ? "company_kskn.ngram" :
+  (category === "road_ADD_kskn") ? "road_ADD_kskn.ngram" :
+  category;
+
 
   body.query = {
     match: {

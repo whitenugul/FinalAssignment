@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import config from 'config';
 import * as searchService from './search-service.js';
@@ -12,7 +13,7 @@ export const totalSearch = asyncWrapper(async(req, res) => {
   const response = await searchService.multi(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
     query: params.keyword,
     ...response.meta,
   })
@@ -28,11 +29,11 @@ res.send(response);
 })
 
 export const periodDate = asyncWrapper(async(req, res) => {
-  const params = req.validated.query;
+  const params = req.validated.body;
   const response = await searchService.period(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
     query: params.date,
     ...response.meta,
   })
@@ -52,8 +53,8 @@ export const rangeDate = asyncWrapper(async(req, res) => {
   const response = await searchService.range(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -72,8 +73,8 @@ export const thesisTotalSearch = asyncWrapper(async(req, res) => {
   const response = await searchService.thesisTotal(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -92,8 +93,8 @@ export const thesisSearch = asyncWrapper(async(req, res) => {
   const response = await searchService.thesis(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -112,8 +113,8 @@ export const stockTotalSearch = asyncWrapper(async(req, res) => {
   const response = await searchService.stockTotal(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -130,10 +131,10 @@ res.send(response);
 export const stockSearch = asyncWrapper(async(req, res) => {
   const params = req.validated.query;
   const response = await searchService.stock(params)
-
+  console.log("keyword: ",params.keyword)
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -152,8 +153,8 @@ export const companyTotalSearch = asyncWrapper(async(req, res) => {
   const response = await searchService.companyTotal(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {
@@ -172,8 +173,8 @@ export const companySearch = asyncWrapper(async(req, res) => {
   const response = await searchService.company(params)
 
   axios
-  .post(`${appConfig.host}:${appConfig.port}/gateway/querylog`, {
-    query: params.date,
+  .post(`http://${appConfig.host}:${appConfig.port}/gateway/querylog`, {
+    query: params.keyword,
     ...response.meta,
   })
   .then(() => {

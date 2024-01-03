@@ -29,27 +29,6 @@ export const multi = async params => {
   return response;
 };
 
-export const category = async params => {
-  const categoryDTO = params;
-  const {searchResult, index} = await searchModel.categorySearch(categoryDTO)
-
-  const body = searchResult.body.hits.hits.map(item => ({
-    ...item._source,
-    highlight: item.highlight,
-  }));
-
-  const response = {
-    meta: {
-      index,
-      took: searchResult.body.took,
-      total: searchResult.body.hits.total.value,
-    },
-    body,
-  };
-  logger.info(JSON.stringify(response.meta));
-  return response;
-}
-
 export const total = async params => {
   const TotalDTO = params;
   const {searchResult, index} = await searchModel.multi(TotalDTO)
@@ -158,7 +137,6 @@ export const thesis = async params => {
 export const stockTotal = async params => {
   const stockTotalDTO = params
   const {searchResult, index} = await searchModel.stockTotal(stockTotalDTO)
-
   const body = searchResult.body.hits.hits.map(item => ({
     ...item._source,
     highlight: item.highlight,
